@@ -1,0 +1,45 @@
+{
+    "rules": {
+        "indent": [
+            2,
+            4,
+            {"SwitchCase": 1}
+        ],
+        "quotes": [
+            2,
+            "single"
+        ],
+        "linebreak-style": [
+            2,
+            "unix"
+        ],
+        "semi": [
+            2,
+            "always"
+        ],
+        // Allow unused args to be passed into functions.
+        "no-unused-vars": [
+            2,
+            {
+                "args": "none"
+            }
+        ],
+        "react/prop-types": 0
+    },
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "plugins": [
+        "react"
+    ]
+}
