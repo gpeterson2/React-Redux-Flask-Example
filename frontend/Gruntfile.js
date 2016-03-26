@@ -2,12 +2,22 @@
 
 module.exports = function(grunt) {
     'use strict';
+
+    // To add new components add to the "browserify" section below. Subsequent
+    // tasks will be applied to all files that have been processed by that
+    // tasks.
+
+    // Uncomment this to see how long each task takes.
     //require('time-grunt')(grunt);
+
+    // This will dynamically load modules, so you don't have to manually do
+    // so.
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
+        // Some path settings to make things easier to reference later.
         settings: {
             appScriptPath: 'scripts',
             appStylePath: 'styles',
@@ -19,6 +29,9 @@ module.exports = function(grunt) {
 
         // Note: Tried to keep these in roughly the order they're called.
 
+        // Cleans a directory. By default it will only work on this directory
+        // and below, if you want to do something outside of the current
+        // structure there should be an option to force it.
         clean: {
             common: [
                 '<%= settings.distLibPath %>'
@@ -32,8 +45,11 @@ module.exports = function(grunt) {
         },
 
         // Handles "require" statements, as well as babelify.
-        // Assumes ejs task has already run.
         browserify: {
+            // Builds all non-application files, this way you can run this
+            // in a "watch" task where it will take the most time up front
+            // and any subsequent build of just application code will
+            // be much quicker.
             common: {
                 src: ['.'],
                 dest: '<%= settings.distLibPath %>/gen/common.js',
@@ -64,6 +80,7 @@ module.exports = function(grunt) {
                             }
                         ]
                     ],
+                    // Should match the "common" task above.
                     external: [
                         'jquery',
                         'react',
@@ -96,6 +113,7 @@ module.exports = function(grunt) {
 
         // Merges/minifies javascript
         // Assumes babel task has already been run.
+        // Again the common files should be handled separately to speed this up.
         uglify: {
             options: {
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
@@ -120,6 +138,7 @@ module.exports = function(grunt) {
         },
 
         // Generates less files here.
+        // This project does not use less, here for examle purposes only.
         less: {
             // For each .less file create a similarly named .css file.
             // TODO - separated these under the assumption that deploy might
@@ -227,6 +246,7 @@ module.exports = function(grunt) {
 
     });
 
+    // Run when you use just "grunt"
     grunt.registerTask('default', [
         'clean',
         'browserify:common',
@@ -237,6 +257,8 @@ module.exports = function(grunt) {
         'copy:styles'
     ]);
 
+    // Build files in the "dist" directory, but do not copy them to the
+    // backend directory. Useful to see the results of the build.
     grunt.registerTask('build', [
         'clean',
         'browserify:common',
@@ -245,6 +267,7 @@ module.exports = function(grunt) {
         'less:deploy'
     ]);
 
+    // Run the build process and copy the restuls to the backend section.
     grunt.registerTask('deploy', [
         'clean',
         'browserify:common',
@@ -255,13 +278,21 @@ module.exports = function(grunt) {
         'copy:styles'
     ]);
 
+    // As currently setup you can't watch both scripts and styles at once.
+    // That is a specific design decision to ensure that each task is as quick
+    // as possible.
+    //
+    // Bundle all "common" files initially, and then watch for changes in the
+    // local application.
     grunt.registerTask('watchJs', [
         'clean:common',
         'browserify:common',
         'uglify:common',
         'watch:scripts'
     ]);
+    // Watch just for style changes.
     grunt.registerTask('watchLess', ['watch:styles']);
 
+    // Lint the project files.
     grunt.registerTask('lint', ['eslint']);
 };

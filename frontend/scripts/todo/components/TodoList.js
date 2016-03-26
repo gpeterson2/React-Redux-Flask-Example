@@ -1,8 +1,11 @@
 import React from 'react';
 import TodoListItem from './TodoListItem';
 
+// The main todo list display.
 var TodoList = React.createClass({
 
+    // Helper so as not to repeat the button code three times.
+    // There may very well be a better way of doing this.
     handleFilterClick: function(filter) {
         return e => {
             e.preventDefault();
@@ -15,6 +18,9 @@ var TodoList = React.createClass({
 
         const { filter } = this.props;
 
+        // Helper to set the css. Using the "classnames" library would
+        // simplify this, but it was not used to limit how many dependencies
+        // this example would have.
         function getFilterCss(filter, value) {
             return 'btn btn-' + (filter === value ? 'primary' : 'default');
         }

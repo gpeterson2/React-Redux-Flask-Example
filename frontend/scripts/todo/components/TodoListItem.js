@@ -1,7 +1,9 @@
 import React from 'react';
 
+// A single todo item.
 var TodoListItem = React.createClass({
 
+    // Opens the edit "page".
     onShowEditClick(e) {
         e.preventDefault();
 
@@ -10,6 +12,7 @@ var TodoListItem = React.createClass({
         this.props.onShowEditClick(todo);
     }
 
+    // Marks the item as complete.
     , onCompleteClick(e) {
         e.preventDefault();
 
@@ -21,8 +24,13 @@ var TodoListItem = React.createClass({
     , render: function() {
         const { todo } = this.props;
 
+        // Again the "classnames" library would simplify this, but I didn't
+        // want to include too many dependencies.
         const icon = 'glyphicon ' + (todo.complete ? 'glyphicon-ok' : 'glyphicon-remove');
 
+        // You may just as well click on the icon and do it, but that didn't
+        // feel intuitive for some reason. So I created the separate button.
+        // The copy for it could use some work, though.
         return <tr>
             <td>
                  <span className={icon} aria-hidden="true"></span>

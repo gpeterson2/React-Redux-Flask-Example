@@ -2,11 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { submitTodo } from '../actions/todo';
 
+/* A form to create a new todo item to be placed above the list. */
 var TodoCreateForm = React.createClass({
 
     handleSubmitClick: function(e) {
         e.preventDefault();
 
+        // This could be simplifed if the todo item were being assigned
+        // to the input value, then clearint it would also clear this
+        // instead of setting the value to an empty string.
         const node = this.refs.todo;
         const text = node.value.trim();
 
@@ -20,6 +24,10 @@ var TodoCreateForm = React.createClass({
     , render: function() {
         const { showCreateForm } = this.props;
 
+        // This will "hide" this form when the "edit" form is displayed.
+        // The same could be accomplished with a routing library, and if
+        // the actual form was more complicated having this as a separate
+        // "page" would probabl be a better way to go.
         if (!showCreateForm) {
             return null;
         } else {

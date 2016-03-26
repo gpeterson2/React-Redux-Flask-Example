@@ -1,3 +1,11 @@
+'''
+    Simple Flask application for handling a JSON REST backend.
+
+    I used the MethodView mostly to try it out, but also becasue it seemed
+    to more easily map to the general REST structure. Using function based
+    views would probably have required more code.
+'''
+
 from flask import (
     Flask,
     render_template,
@@ -12,13 +20,22 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    ''' Redners the main page. '''
+
     return render_template('todo.html')
 
 
 @app.route('/todo')
 class TodoApi(MethodView, TodoMixin):
+    ''' JSON REST Api. '''
 
     def get(self, todo_id):
+        ''' Returns todo items.
+
+            If todo_id is supplied only that item will be returned. If it
+            is not supplied then all items will be returned.
+        '''
+
         if todo_id is None:
             # return a list of todos
 
@@ -31,7 +48,10 @@ class TodoApi(MethodView, TodoMixin):
             return jsonify(todo=todo)
 
     def post(self):
-        # create a new todo
+        ''' Submits a new todo item.
+
+            Assumes that data will be supplied as a JSON payload.
+        '''
 
         values = request.json
         todo = values['todo']
@@ -43,7 +63,10 @@ class TodoApi(MethodView, TodoMixin):
         return jsonify(todo=todo)
 
     def put(self, todo_id):
-        # update a single todo
+        ''' Updates an existing todo item.
+
+            Assumes that data will be supplied as a JSON payload.
+        '''
 
         values = request.json
         todo = values['todo']
@@ -56,7 +79,11 @@ class TodoApi(MethodView, TodoMixin):
         return jsonify(todo=todo)
 
     def delete(self, todo_id):
-        # delete a single todo
+        ''' Deletes an existing todo item.
+
+            *Note* In a production app todo_id should not be supplied
+            as a URL parameter.
+        '''
 
         self.delete_todo(todo_id)
 

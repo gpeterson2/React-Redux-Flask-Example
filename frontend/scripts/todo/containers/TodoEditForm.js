@@ -8,8 +8,15 @@ import {
     , updateTodoText
 } from '../actions/todo';
 
+/* A form to edit an existing item.
+ *
+ * When using a routing library you would likely want to pass the id in and
+ * then have code to query just that todo item. This is a simple enough form
+ * that I just pass the values in.
+ */
 var TodoEditForm = React.createClass({
 
+    // Necessary when explicitly setting an input's value.
     handleChange: function() {
         const text = this.refs.todo.value.trim();
 
@@ -25,6 +32,8 @@ var TodoEditForm = React.createClass({
 
         const { dispatch, todo } = this.props;
 
+        // We want a brand new item here, we don't want to edit props
+        // directly, either in general, or when using redux.
         let updatedTodo = {
             todo_id: todo.todo_id
             , todo: text
