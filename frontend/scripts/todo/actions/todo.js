@@ -8,24 +8,18 @@
 // required for React or Redux.
 
 import jQuery from 'jquery';
+import {
+    SHOW_TODO
+    , SHOW_SPINNER
+    , SHOW_ERRORS
+    , UPDATE_FILTER
+    , SHOW_EDIT_FORM
+    , SHOW_TODO_LIST
+    , UPDATE_TODO_TEXT
+    , UPDATE_TODO_COMPLETE
+    , CLEAR_EDIT_FORM
+} from '../constants/todo'
 
-// Constants
-// TODO - move these to a separate file.
-
-// Todo list
-export const SHOW_TODO = 'SHOW_TODO';
-export const SHOW_SPINNER = 'SHOW_SPINNER';
-export const SHOW_ERRORS = 'SHOW_ERRORS';
-export const UPDATE_FILTER = 'UPDATE_FILTER';
-
-// Component visibility
-export const SHOW_EDIT_FORM = 'SHOW_EDIT_FORM';
-export const SHOW_TODO_LIST = 'SHOW_TODO_LIST';
-
-// Update
-export const UPDATE_TODO_TEXT = 'UPDATE_TODO_TEXT';
-export const UPDATE_TODO_COMPLETE = 'UPDATE_TODO_COMPLETE';
-export const CLEAR_EDIT_FORM = 'CLEAR_EDIT_FORM';
 
 /* Updates the filter
  *
