@@ -23,7 +23,7 @@ import {
     , UPDATE_FILTER
     , UPDATE_TODO_TEXT
     , SHOW_TODO
-} from '../actions/todo';
+} from '../constants/todo';
 
 const initialStateTodos = {
     todos: []
