@@ -27,6 +27,8 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^18.0.0",
     "load-grunt-tasks": "^3.3.0",
+    "react-router": "^2.4.1",
+    "react-router-redux": "^4.0.4",
     "redux-thunk": "^2.0.1",
     "time-grunt": "^1.2.2"
   }
