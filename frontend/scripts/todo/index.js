@@ -19,7 +19,7 @@ render(
         <Router history={history}>
             <Route path="/" component={TodoListContainer} />
             <Route path="add" component={TodoCreateForm} />
-            <Route path="edit" component={TodoEditForm} />
+            <Route path="edit/:todoId" component={TodoEditForm} />
         </Router>
     </Provider>,
     rootElement

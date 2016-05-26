@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import {
     fetchTodos
-    , showEditForm
     , updateTodo
     , updateFilter
 } from '../actions/todo';
@@ -30,9 +29,7 @@ var TodoListContainer = React.createClass({
     }
 
     , handleShowEditClick: function(todo) {
-        const { dispatch } = this.props;
-        dispatch(showEditForm(todo));
-        browserHistory.push('/edit');
+        browserHistory.push(`/edit/${todo.todo_id}`);
     }
 
     , handleFilterClick: function(filter) {

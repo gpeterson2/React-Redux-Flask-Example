@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import {
     clearEditForm
+    , fetchTodo
     , fetchTodos
     , showTodoList
     , updateTodo
@@ -17,8 +18,14 @@ import {
  */
 var TodoEditForm = React.createClass({
 
+    // Called when the component is displayed, performs the inital query.
+    componentDidMount: function() {
+        const { dispatch, todoId } = this.props;
+        return dispatch(fetchTodo(todoId));
+    }
+
     // Necessary when explicitly setting an input's value.
-    handleChange: function() {
+    , handleChange: function() {
         const text = this.refs.todo.value.trim();
 
         const { dispatch } = this.props;
@@ -91,11 +98,12 @@ var TodoEditForm = React.createClass({
     }
 });
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     const { todo } = state.todo;
 
     return {
         todo: todo
+        , todoId: ownProps.params.todoId
     };
 }
 

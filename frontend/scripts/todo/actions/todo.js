@@ -17,10 +17,8 @@ import {
     , SHOW_EDIT_FORM
     , SHOW_TODO_LIST
     , UPDATE_TODO_TEXT
-    , UPDATE_TODO_COMPLETE
     , CLEAR_EDIT_FORM
-} from '../constants/todo'
-
+} from '../constants/todo';
 
 /* Updates the filter
  *
@@ -116,6 +114,28 @@ export function fetchTodos() {
         })
         .then(data => {
             return dispatch(showTodos(data.todos));
+        }, (xhr, status, err) => {
+            return dispatch(showErrors(err));
+        });
+    };
+}
+
+/* Fetch a single todo from the backend.
+ *
+ * In the process this will trigger the spinner until the fetch is complete.
+ */
+export function fetchTodo(todoId) {
+    return dispatch => {
+        dispatch(showSpinner());
+
+        // Note you have to use promises for redux-thunk to work.
+        return jQuery.ajax({
+            url: `/todos/${todoId}`
+            , dataType: 'json'
+            , method: 'GET'
+        })
+        .then(data => {
+            return dispatch(showEditForm(data.todo));
         }, (xhr, status, err) => {
             return dispatch(showErrors(err));
         });
