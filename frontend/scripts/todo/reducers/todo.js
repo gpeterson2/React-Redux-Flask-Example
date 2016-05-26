@@ -86,12 +86,11 @@ function todo(state = initialStateTodo, action) {
                 todo: action.todo
             });
         case UPDATE_TODO_TEXT:
-            let orig = state.todo;
             return Object.assign({}, state, {
                 todo: {
-                    todo_id: orig.todo_id
+                    todo_id: state.todo.todo_id
                     , todo: action.text
-                    , complete: orig.complete
+                    , complete: state.todo.complete
                 }
             });
         case CLEAR_EDIT_FORM:

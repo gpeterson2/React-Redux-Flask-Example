@@ -16,10 +16,8 @@ import {
     , SHOW_EDIT_FORM
     , SHOW_TODO_LIST
     , UPDATE_TODO_TEXT
-    , UPDATE_TODO_COMPLETE
     , CLEAR_EDIT_FORM
-} from '../constants/todo'
-
+} from '../constants/todo';
 
 /* Updates the filter
  *
