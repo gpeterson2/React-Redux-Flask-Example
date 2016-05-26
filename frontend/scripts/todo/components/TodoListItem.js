@@ -37,10 +37,10 @@ var TodoListItem = React.createClass({
             </td>
             <td>{todo.todo}</td>
             <td>
-                <a onClick={this.onShowEditClick}>Edit</a>
+                <a className="btn btn-default" onClick={this.onShowEditClick}>Edit</a>
             </td>
             <td>
-                <a onClick={this.onCompleteClick}>
+                <a className="btn btn-default" onClick={this.onCompleteClick}>
                     Mark as "{todo.complete ? 'Not Done' : 'Done'}"
                 </a>
             </td>

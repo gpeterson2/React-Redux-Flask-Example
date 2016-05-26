@@ -14,6 +14,10 @@ It is somewhat inspired by this: http://redux.js.org/docs/basics/ExampleTodoList
 Check the backend and frontened directories for setup instructions for each
 section.
 
+This version uses react-router. It is by no means a comprehensive example. For
+example you can use action redirects, which might be a better solution
+overall, but might complicate the example.
+
 ===
 FAQ
 ===
@@ -26,20 +30,6 @@ way. I wanted to have a "create" form at the top of the main todo list, but
 then also have the edit form as it's own "page". For a more complicated form
 you could look into merging these files, or factor out the form element to
 limit code duplication.
-
-**Why does each form element have a "show" variable?**
-
-There are two main reason 1) The initial presentation this example was created
-for was to people with lots of jQuery experience, and so I wanted to show how
-in React it's often easier to just not render an element as apposed to using
-classes to show/hide it. 2) I wanted to have an example of components
-interacting via redux. It is perhaps not the best example usage, but it worked
-for the overall example project.
-
-**OK, why don't you use a routing library to do that?**
-
-It might not have added much complexity to project, but it was beyond the
-scope of the concepts I wanted to show off.
 
 **Why not use es6 classes?**
 

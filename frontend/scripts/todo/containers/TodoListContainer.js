@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link, browserHistory } from 'react-router';
 import {
     fetchTodos
     , showEditForm
@@ -31,6 +32,7 @@ var TodoListContainer = React.createClass({
     , handleShowEditClick: function(todo) {
         const { dispatch } = this.props;
         dispatch(showEditForm(todo));
+        browserHistory.push('/edit');
     }
 
     , handleFilterClick: function(filter) {
@@ -39,12 +41,10 @@ var TodoListContainer = React.createClass({
     }
 
     , render: function() {
-        const { showSpinner, showTodoList } = this.props;
+        const { showSpinner } = this.props;
 
         let display = null;
-        if (!showTodoList) {
-            return null;
-        } if (showSpinner) {
+        if (showSpinner) {
             display = <SpinnerDisplay />;
         } else {
             display = <div>
@@ -56,12 +56,19 @@ var TodoListContainer = React.createClass({
             </div>;
         }
 
-        return display;
+        return <div>
+            <div className="row">
+                <Link className="btn btn-default" to="/add" >Add Todo</Link>
+            </div>
+            <div className="row">
+                {display}
+            </div>
+        </div>;
     }
 });
 
 function mapStateToProps(state) {
-    const { todos, showSpinner, showTodoList, filter } = state.todos;
+    const { todos, showSpinner, filter } = state.todos;
 
     // Handle the filtering here before display. This way the overall
     // todo list is left unchanged and will not have to be re-queried.
@@ -83,7 +90,6 @@ function mapStateToProps(state) {
         todos: filteredTodos
         , filter: filter
         , showSpinner: showSpinner
-        , showTodoList: showTodoList
     };
 }
 

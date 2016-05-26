@@ -20,7 +20,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    ''' Redners the main page. '''
+    ''' Renders the main page. '''
 
     return render_template('todo.html')
 
@@ -95,6 +95,14 @@ app.add_url_rule('/todos/', defaults={'todo_id': None},
 app.add_url_rule('/todos/', view_func=user_view, methods=['POST'])
 app.add_url_rule('/todos/<int:todo_id>', view_func=user_view,
                  methods=['GET', 'PUT', 'DELETE'])
+
+
+@app.route('/<path:wildcard>')
+def wildcard(wildcard):
+    ''' Renders the main page for frontend routes. '''
+
+    return render_template('todo.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True,

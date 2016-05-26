@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link, browserHistory } from 'react-router';
 import {
     clearEditForm
     , fetchTodos
@@ -45,6 +46,8 @@ var TodoEditForm = React.createClass({
 
         dispatch(showTodoList());
         dispatch(fetchTodos());
+
+        browserHistory.push('/');
     }
 
     , handleCloseForm: function(e) {
@@ -54,49 +57,45 @@ var TodoEditForm = React.createClass({
         dispatch(showTodoList());
         // Prevent any old values from displaying again.
         dispatch(clearEditForm());
+
+        browserHistory.push('/');
     }
 
     , render: function() {
 
-        const { todo, showEditForm } = this.props;
+        const { todo } = this.props;
 
-        if (!showEditForm) {
-            return null;
-        } else {
-            return <form className="form">
-                <div className="form-group">
-                    <input
-                        type="text"
-                        name="todo"
-                        className="form-control"
-                        ref="todo"
-                        onChange={this.handleChange}
-                        value={todo.todo} />
-                </div>
+        return <form className="form">
+            <div className="form-group">
+                <input
+                    type="text"
+                    name="todo"
+                    className="form-control"
+                    ref="todo"
+                    onChange={this.handleChange}
+                    value={todo.todo} />
+            </div>
 
-                <div className="btn-toolbar">
-                    <button className="btn btn-primary"
-                        onClick={this.handleSave}>
-                        Save
-                    </button>
+            <div className="btn-toolbar">
+                <button className="btn btn-primary"
+                    onClick={this.handleSave}>
+                    Save
+                </button>
 
-                    <button className="btn btn-primary"
-                        onClick={this.handleCloseForm}>
-                        Cancel
-                    </button>
-                </div>
-            </form>;
-        }
+                <button className="btn btn-primary"
+                    onClick={this.handleCloseForm}>
+                    Cancel
+                </button>
+            </div>
+        </form>;
     }
 });
 
 function mapStateToProps(state) {
-    const { showEditForm } = state.todos;
     const { todo } = state.todo;
 
     return {
         todo: todo
-        , showEditForm: showEditForm
     };
 }
 

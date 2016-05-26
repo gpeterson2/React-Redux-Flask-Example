@@ -15,6 +15,7 @@
 // you are likely to get strange errors where things do not work.
 
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 import {
     CLEAR_EDIT_FORM
     , SHOW_EDIT_FORM
@@ -28,9 +29,6 @@ import {
 const initialStateTodos = {
     todos: []
     , filter: 'ALL'
-    , showTodoList: true
-    , showCreateForm: true
-    , showEditForm: false
 };
 
 // Handles the list fuctionality, including "routing" logic.
@@ -46,20 +44,6 @@ function todos(state = initialStateTodos, action) {
             return Object.assign({}, state, {
                 todos: action.todos
                 , showSpinner: true
-            });
-        case SHOW_TODO_LIST:
-            return Object.assign({}, state, {
-                showTodoList: true
-                , showCreateForm: true
-                , showEditForm: false
-                , showSpinner: false
-            });
-        case SHOW_EDIT_FORM:
-            return Object.assign({}, state, {
-                showTodoList: false
-                , showCreateForm: false
-                , showEditForm: true
-                , showSpinner: false
             });
         case UPDATE_FILTER:
             return Object.assign({}, state, {
@@ -86,12 +70,11 @@ function todo(state = initialStateTodo, action) {
                 todo: action.todo
             });
         case UPDATE_TODO_TEXT:
-            let orig = state.todo;
             return Object.assign({}, state, {
                 todo: {
-                    todo_id: orig.todo_id
+                    todo_id: state.todo.todo_id
                     , todo: action.text
-                    , complete: orig.complete
+                    , complete: state.todo.complete
                 }
             });
         case CLEAR_EDIT_FORM:
@@ -102,8 +85,9 @@ function todo(state = initialStateTodo, action) {
 }
 
 const todoApp = combineReducers({
-    todos: todos,
-    todo: todo
+    todos: todos
+    , todo: todo
+    , routing: routerReducer
 });
 
 export default todoApp;

@@ -8,6 +8,7 @@
 // required for React or Redux.
 
 import jQuery from 'jquery';
+import { browserHistory } from 'react-router';
 import {
     SHOW_TODO
     , SHOW_SPINNER
@@ -139,6 +140,7 @@ export function submitTodo(text) {
         })
         .then(data => {
             dispatch(showSpinner());
+            browserHistory.push('/');
             return dispatch(fetchTodos());
         }, (xhr, status, err) => {
             return dispatch(showErrors(err));
@@ -166,6 +168,7 @@ export function updateTodo(todo) {
         })
         .then(data => {
             dispatch(showSpinner());
+            browserHistory.push('/');
             return dispatch(fetchTodos());
         }, (xhr, status, err) => {
             return dispatch(showErrors(err));
