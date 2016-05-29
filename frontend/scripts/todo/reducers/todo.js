@@ -22,17 +22,22 @@ import {
     , SHOW_SPINNER
     , UPDATE_FILTER
     , UPDATE_TODO_TEXT
+    , UPDATE_PAGE
     , SHOW_TODO
 } from '../constants/todo';
 
 const initialStateTodos = {
     todos: []
+    , visibleTodos: []
+    , page: 1
+    , size: 5
     , filter: 'ALL'
 };
 
 // Handles the list fuctionality, including "routing" logic.
 function todos(state = initialStateTodos, action) {
 
+    let start, end, visibleTodos;
     switch(action.type) {
         case SHOW_TODO:
             return Object.assign({}, state, {
@@ -48,6 +53,17 @@ function todos(state = initialStateTodos, action) {
             return Object.assign({}, state, {
                 filter: action.filter
             });
+        case UPDATE_PAGE:
+            start = (action.page - 1) * state.size;
+            end = start + state.size;
+            visibleTodos = (state.todos || []).slice(start, end);
+
+            return Object.assign({}, state, {
+                visibleTodos: visibleTodos
+                , page: action.page
+                , showSpinner: false
+            });
+
         default:
             return state;
     }

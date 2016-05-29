@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import {
-    fetchTodos
+    changePage
+    , fetchTodos
     , updateTodo
     , updateFilter
 } from '../actions/todo';
@@ -16,6 +17,15 @@ var TodoListContainer = React.createClass({
     componentDidMount: function() {
         const { dispatch } = this.props;
         return dispatch(fetchTodos());
+    }
+
+    , componentWillReceiveProps: function(nextProps) {
+        const { dispatch, page } = this.props;
+        let newPage = nextProps.params.page;
+
+        if (Number(page) !== Number(newPage)) {
+            dispatch(changePage(newPage));
+        }
     }
 
     // Updates the complete value when you click the button. For the most part
@@ -65,7 +75,14 @@ var TodoListContainer = React.createClass({
 });
 
 function mapStateToProps(state) {
-    const { todos, showSpinner, filter } = state.todos;
+    const {
+        todos
+        , visibleTodos
+        , showSpinner
+        , filter
+        , page
+        , size
+    } = state.todos;
 
     // Handle the filtering here before display. This way the overall
     // todo list is left unchanged and will not have to be re-queried.
@@ -83,8 +100,14 @@ function mapStateToProps(state) {
             filteredTodos = todos;
     }
 
+    const len = (todos || []).length;
+    let pageCount = Math.ceil(len / size);
     return {
-        todos: filteredTodos
+        todos: todos
+        , visibleTodos: visibleTodos
+        , page: Number(page)
+        , pageCount: pageCount
+        , size: size
         , filter: filter
         , showSpinner: showSpinner
     };

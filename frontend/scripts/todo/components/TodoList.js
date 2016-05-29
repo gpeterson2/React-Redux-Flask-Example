@@ -1,5 +1,6 @@
 import React from 'react';
 import TodoListItem from './TodoListItem';
+import { Link } from 'react-router';
 
 // The main todo list display.
 var TodoList = React.createClass({
@@ -16,7 +17,12 @@ var TodoList = React.createClass({
 
     , render: function() {
 
-        const { filter } = this.props;
+        const {
+            filter
+            , visibleTodos
+            , page
+            , pageCount
+        } = this.props;
 
         // Helper to set the css. Using the "classnames" library would
         // simplify this, but it was not used to limit how many dependencies
@@ -28,6 +34,36 @@ var TodoList = React.createClass({
         const allCss = getFilterCss(filter, 'ALL');
         const completeCss = getFilterCss(filter, 'COMPLETE');
         const incompleteCss = getFilterCss(filter, 'INCOMPLETE');
+
+        let previousDisplay = null;
+        if (page > 1) {
+            previousDisplay = <li>
+                <Link to={`/page/${page - 1}`} aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </Link>
+            </li>;
+        }
+
+        let nextDisplay = null;
+        if (page < pageCount) {
+            nextDisplay = <li>
+                <Link to={`/page/${page + 1}`} aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </Link>
+            </li>;
+        }
+
+        let pageDisplay = null;
+        if (pageCount > 0) {
+            let pages = Array(pageCount).fill(0);
+            pageDisplay = pages.map((p, i) => {
+                const pageDisplay = i + 1;
+                const cls = page == pageDisplay ? 'active': '';
+                return <li key={i} className={cls}>
+                    <Link to={`/page/${pageDisplay}`}>{pageDisplay}</Link>
+                </li>;
+            });
+        }
 
         return <div>
             <br />
@@ -57,7 +93,7 @@ var TodoList = React.createClass({
                 </thead>
 
                 <tbody>
-                    {this.props.todos.map((todo, i) => {
+                    {visibleTodos.map((todo, i) => {
                         return <TodoListItem
                             key={i}
                             todo={todo}
@@ -66,6 +102,14 @@ var TodoList = React.createClass({
                     })}
                 </tbody>
             </table>
+
+            <nav>
+                <ul className="pagination">
+                    {previousDisplay}
+                    {pageDisplay}
+                    {nextDisplay}
+                </ul>
+            </nav>
         </div>;
     }
 });

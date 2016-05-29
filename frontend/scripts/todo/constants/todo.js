@@ -3,6 +3,7 @@ export const SHOW_TODO = 'SHOW_TODO';
 export const SHOW_SPINNER = 'SHOW_SPINNER';
 export const SHOW_ERRORS = 'SHOW_ERRORS';
 export const UPDATE_FILTER = 'UPDATE_FILTER';
+export const UPDATE_PAGE = 'UPDATE_PAGE';
 
 // Component visibility
 export const SHOW_EDIT_FORM = 'SHOW_EDIT_FORM';

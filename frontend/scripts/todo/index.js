@@ -18,6 +18,7 @@ render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={TodoListContainer} />
+            <Route path="/page/:page" component={TodoListContainer} />
             <Route path="add" component={TodoCreateForm} />
             <Route path="edit/:todoId" component={TodoEditForm} />
         </Router>

@@ -18,6 +18,7 @@ import {
     , SHOW_TODO_LIST
     , UPDATE_TODO_TEXT
     , CLEAR_EDIT_FORM
+    , UPDATE_PAGE
 } from '../constants/todo';
 
 /* Updates the filter
@@ -87,6 +88,17 @@ export function showTodos(todos) {
     };
 }
 
+/* Update the page being view.
+ *
+ * @param todos - the list to display.
+ */
+export function changePage(page) {
+    return {
+        type: UPDATE_PAGE
+        , page
+    };
+}
+
 /* Shows any errors
  *
  * @param errors - list of errors.
@@ -102,7 +114,7 @@ export function showErrors(errors) {
  *
  * In the process this will trigger the spinner until the fetch is complete.
  */
-export function fetchTodos() {
+export function fetchTodos(page = 1) {
     return dispatch => {
         dispatch(showSpinner());
 
@@ -113,7 +125,8 @@ export function fetchTodos() {
             , method: 'GET'
         })
         .then(data => {
-            return dispatch(showTodos(data.todos));
+            dispatch(showTodos(data.todos));
+            return dispatch(changePage(page));
         }, (xhr, status, err) => {
             return dispatch(showErrors(err));
         });
