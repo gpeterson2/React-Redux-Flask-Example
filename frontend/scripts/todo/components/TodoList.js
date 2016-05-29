@@ -54,7 +54,7 @@ var TodoList = React.createClass({
         }
 
         let pageDisplay = null;
-        if (pageCount > 0) {
+        if (pageCount > 1) {
             let pages = Array(pageCount).fill(0);
             pageDisplay = pages.map((p, i) => {
                 const pageDisplay = i + 1;

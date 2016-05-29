@@ -23,7 +23,13 @@ var TodoListContainer = React.createClass({
         const { dispatch, page } = this.props;
         let newPage = nextProps.params.page;
 
-        if (Number(page) !== Number(newPage)) {
+        if (!page || !newPage) {
+            return;
+        }
+
+        newPage = Number(newPage);
+
+        if (page !== newPage) {
             dispatch(changePage(newPage));
         }
     }
@@ -45,6 +51,10 @@ var TodoListContainer = React.createClass({
     , handleFilterClick: function(filter) {
         const { dispatch } = this.props;
         dispatch(updateFilter(filter));
+
+        // TODO - could use react-router-redux to do this.
+        browserHistory.push('/page/1');
+        dispatch(changePage(1));
     }
 
     , render: function() {
@@ -82,26 +92,9 @@ function mapStateToProps(state) {
         , filter
         , page
         , size
+        , pageCount
     } = state.todos;
 
-    // Handle the filtering here before display. This way the overall
-    // todo list is left unchanged and will not have to be re-queried.
-    // The same could also be accomplished before rendering.
-    let filteredTodos;
-
-    switch (filter) {
-        case 'COMPLETE':
-            filteredTodos = todos.filter(t => t.complete === 1);
-            break;
-        case 'INCOMPLETE':
-            filteredTodos = todos.filter(t => t.complete === 0);
-            break;
-        default:
-            filteredTodos = todos;
-    }
-
-    const len = (todos || []).length;
-    let pageCount = Math.ceil(len / size);
     return {
         todos: todos
         , visibleTodos: visibleTodos

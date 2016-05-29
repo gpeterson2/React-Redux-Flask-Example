@@ -93,9 +93,10 @@ export function showTodos(todos) {
  * @param todos - the list to display.
  */
 export function changePage(page) {
+    const numPage = Number(page);
     return {
         type: UPDATE_PAGE
-        , page
+        , page: numPage
     };
 }
 

@@ -34,10 +34,10 @@ const initialStateTodos = {
     , filter: 'ALL'
 };
 
-// Handles the list fuctionality, including "routing" logic.
+// Handles the list functionality, including "routing" logic.
 function todos(state = initialStateTodos, action) {
 
-    let start, end, visibleTodos;
+    let start, end, items, filteredTodos, visibleTodos, page, pageCount;
     switch(action.type) {
         case SHOW_TODO:
             return Object.assign({}, state, {
@@ -54,13 +54,29 @@ function todos(state = initialStateTodos, action) {
                 filter: action.filter
             });
         case UPDATE_PAGE:
-            start = (action.page - 1) * state.size;
+            page = action.page;
+            pageCount = state.pageCount;
+            start = (page - 1) * state.size;
             end = start + state.size;
-            visibleTodos = (state.todos || []).slice(start, end);
+            items = (state.todos || []);
+
+            switch (state.filter) {
+                case 'COMPLETE':
+                    filteredTodos = items.filter(t => t.complete === 1);
+                    break;
+                case 'INCOMPLETE':
+                    filteredTodos = items.filter(t => t.complete === 0);
+                    break;
+                default:
+                    filteredTodos = items;
+            }
+            pageCount = Math.ceil(filteredTodos.length / state.size);
+            visibleTodos = (filteredTodos || []).slice(start, end);
 
             return Object.assign({}, state, {
                 visibleTodos: visibleTodos
-                , page: action.page
+                , page: page
+                , pageCount: pageCount
                 , showSpinner: false
             });
 
