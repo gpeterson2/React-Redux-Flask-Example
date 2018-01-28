@@ -2,7 +2,7 @@
 React Redux Flaks Todo
 ======================
 
-This is for example purposes only. It is a complemtary example to the slides
+This is for example purposes only. It is a complementary example to the slides
 found here: http://slides.com/gpeterson/deck#/
 
 This has nothing to do with http://todomvc.com/ I haven't made any attempt to
